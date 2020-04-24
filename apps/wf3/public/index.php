@@ -2,6 +2,8 @@
 
 use App\DevTools;
 use App\LibsLoader;
+use App\Models\Section;
+use App\Models\Student;
 
 
 $loader = require '../vendor/autoload.php';
@@ -58,3 +60,29 @@ $students = [
  * chaque élève doit êre un objet
  * chaque section est un objet qui contient un tabeau d'objets élèves
  */
+
+    $sectionsLabels = [];
+    $studentsObjs = [];
+    $sections = [];
+
+foreach($students as $student) {
+        $studentObj = new Student();
+        $studentObj->name = $student['name'];
+        $studentObj->age = $student['age'];
+        $studentObj->section = $student['section'];
+        array_push($studentsObjs, $studentObj);
+        if (!in_array($student['section'], $sectionsLabels)) {
+            array_push($sectionsLabels, $student['section']);
+        }
+    }
+    foreach ($sectionsLabels as $label) {
+        $section = new Section();
+        $section->name = $label;
+        foreach ($studentsObjs as $student) {
+            if($student->section === $section->name) {
+                array_push($section->students, $student);
+            }
+        }
+        array_push($sections, $section);
+    }
+    $tools->prettyVarDump($sections);
