@@ -1,27 +1,38 @@
 <?php
 
-use App\ClasseTest;
 use App\DevTools;
 use App\LibsLoader;
+use App\Models\Voiture;
 
 $loader = require '../vendor/autoload.php';
 
 $libsLoader = new LibsLoader();
 $libsLoader->loadLibraries();
 
+$voitures = [
+  ['model' => '208',
+      'mark' => 'Peugeot',
+      'price' => 10000,
+      'TVA' => 20
+  ],
+    [
+        'model' => 'duster',
+        'mark' => 'Dacia',
+        'price' => 15000,
+        'TVA' => 20
+    ]
+];
 
-$monTableau = ['hadrien', 'julien', 'phillipe', 'maxime'];
-$tableauDeux = ['Jules', 'Giles', 'Thomas', 'Luc', 'Theo'];
+$carsObjs = [];
 
-$classeHadrien = new ClasseTest('Hadrien', 31);
-$classeNoemie = new ClasseTest('Noemie', 29);
-$classeHadrien->age = 45;
+$tools = new DevTools();
 
 
-$devTools = new DevTools();
+foreach ($voitures as $voiture) {
+    $carObj = new Voiture();
+    $carObj->hydrateCar($voiture['mark'], $voiture['model'], $voiture['price'], $voiture['TVA']);
+    array_push($carsObjs, $carObj);
+}
 
-$devTools->prettyVarDump($monTableau);
-$devTools->prettyVarDump($tableauDeux);
-$devTools->prettyVarDump($classeNoemie);
-$devTools->showArrayFirstElement($monTableau);
-$devTools->showArrayElementAtIndex($monTableau, 2);
+$tools->prettyVarDump($carsObjs);
+
