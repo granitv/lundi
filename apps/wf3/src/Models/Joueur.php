@@ -19,6 +19,9 @@ class Joueur
     public $ap;
 
 
+    public $armor;
+
+
     public function calculateHps(){
         $this->hp = rand(10, 20) + ($this->stats->endurance * 1.2);
     }
@@ -27,4 +30,7 @@ class Joueur
         $this->mp = rand(10, 30) + ($this->stats->intelligence * 1.3);
     }
 
+    public function calculateAps(){
+        $this->ap = $this->armor->armorClass + ($this->stats->endurance * 1.1);
+    }
 }
