@@ -14,10 +14,9 @@ class Joueur
 
     public $stats;
 
-    private $hp;
+    public $hp;
     private $mp;
     public $ap;
-
 
     public $armor;
 
@@ -32,5 +31,13 @@ class Joueur
 
     public function calculateAps(){
         $this->ap = $this->armor->armorClass + ($this->stats->endurance * 1.1);
+    }
+
+    public function calculateDamagesGiven(){
+        return (($this->stats->force * 0.5) + rand(0,3));
+    }
+
+    public function takeDamages($damages) {
+        $this->hp = $this->hp - $damages;
     }
 }
